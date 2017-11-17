@@ -1,0 +1,101 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<!--<div class="container details">-->
+    <!--<p>{{ user.first_name }} {{ user.last_name }}</p>-->
+<!--{% if user.profile.newsfeed_set.exists %}-->
+    <!--{%for a in user.profile.newsfeed_set.all %}-->
+        <!--<p>{{ a.title }}</p>-->
+        <!--<p>{{a.content}}</p>-->
+    <!--{% endfor %}-->
+<!--{% else %}-->
+<!--<p><h1 style="color:red;">No Newwsfeed Exists</h1></p>-->
+<!--{% endif %}-->
+<!--</div>-->
+
+
+<h4><span>{{ user.first_name|title }} {{ user.last_name|title }}</span></h4>
+<h4><span>Born on: {{ user.profile.dob }} </span></h4>
+<div class="col-md-8"></div>
+<div id="follower" class="col-md-4">
+            {% include 'posts/followcreated.html' %}
+</div>
+
+<div class="col-md-4"></div>
+{% for account in user.socialaccount_set.all %}
+<p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
+{% endfor %}
+<div class="col-md-4">
+{% if user.profile.profpic %}
+    <img  src="{{user.profile.profpic.url }}" width="300" height="200" alt="hai">
+    {%endif%}
+</div>
+
+
+
+<div class=" col-sm-12 col-md-12">
+
+    {% if user.profile.newsfeed_set.exists %}
+    {% for a in user.profile.newsfeed_set.all %}
+    <div class="container">
+	    <div class=" jumbotron" >
+	    <h4 >{{user.first_name|title}}{{user.last_name|title}}<span>posted {{a.pub_date|timesince}}ago</span></h4>
+	    <!--<div><img src="C:/Users/rinson/Downloads/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/hello.jpg" width="200px" height="auto"></div>-->
+            <div class="an ">{{ a.title }}</div>
+            <div class="h5 ">{{ a.content }} </div>
+            <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
+	        <div id="panel{{forloop.counter}}" style="display:none">
+	        {% if a.newsvalue_set.exists %}
+                {% for b in a.newsvalue_set.all %}
+                <div id="box">{{b.commented|title}} {{b.comm_date|timesince:b.comm_date}}ago<div id="comm">{{b.comment}}</div></div>
+                {% endfor %}
+                {% else %}
+                <p>no comments</p>
+                {% endif %}
+<script>
+$(document).ready(function(){
+    $("#flip{{forloop.counter}}").click(function(){
+        $("#panel{{forloop.counter}}").slideToggle("slow");
+    });
+});
+</script>
+	        <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+
+	    </div>
+	    </div>
+
+    {% endfor %}
+{% else %}
+    <h2>No news feed</h2>
+{% endif %}
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+function unfollow(user_id,login_user){
+
+$.ajax({
+    type: "GET",
+    url: "/unfollow/",
+    data: {'id':user_id,'log_user':login_user},
+    success: function(data) {
+                        $("#follower").html(data);
+
+},
+});
+
+}
+function follow(user_id,login_user){
+
+$.ajax({
+    type: "GET",
+    url: "/follow/",
+    data: {'id':user_id,'log_user':login_user},
+    success: function(data) {
+                        $("#follower").html(data);
+
+},
+});
+
+}
+</script>
+{% endblock %}

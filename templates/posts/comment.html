@@ -1,0 +1,6 @@
+
+<form action="{% url 'posts:comment' a.id%}" name="id" method="get" id="form{{forloop.counter}}" name="form2">
+    {% csrf_token %}
+    <input type="text" placeholder="Comments here" name="comment" id="comment{{forloop.counter}}">
+    <input type="button" id="btn1" value="post" onclick="Myfun({{a.id}},{{forloop.counter}});" >
+            </form>

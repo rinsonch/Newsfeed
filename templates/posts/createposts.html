@@ -1,0 +1,18 @@
+
+
+    <div class="col-sm-4"></div>
+    <div class="col-md-4">
+<form  method="get" id="post_form" name="post_form" enctype="multipart/form-data">
+    {% csrf_token %}
+        <input type="text" id="title" name="title" placeholder="Title.." required style="width:400px;"></br>
+        <textarea  name="content" id="content"  placeholder="content...." style="width:400px;"></textarea></br>
+    <!--<input type="file" name="feedpic" id="feedpic">-->
+    <input type="button" id="btn" value="Post" >
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+
+</form>
+
+
+        </div>
+

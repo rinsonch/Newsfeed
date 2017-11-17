@@ -1,0 +1,39 @@
+
+    {% for a in news.profile.newsfeed_set.all %}
+    <div class="container ">
+	    <div class=" jumbotron">
+	    <h4 >{{news.profile.user.first_name|title}}{{news.profile.user.last_name|title}}<span>{posted{a.pub_date|timesince}}ago</span></h4>
+	    <!--<div><img src="C:/Users/rinson/Downloads/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/hello.jpg" width="200px" height="auto"></div>-->
+            <div class="h3 ">{{ a.title|title }}</div>
+            <div class="h5 ">{{ a.content|title }} </div>
+            {% include 'posts/comment.html' %}
+
+            <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
+	        <div id="panel{{forloop.counter}}" style="display:none">
+                {% if a.newsvalue_set.exists %}
+                <div id="comment_box">
+                {% for b in a.newsvalue_set.all %}
+                <div id="box">{{b.commented|title}} {{b.comm_date|timesince}} ago<div id="comm">{{b.comment}}</div></div>
+                {% endfor %}
+                </div>
+                {% else %}
+                <p>no comments</p>
+                {% endif %}
+
+	         <script>
+$(document).ready(function(){
+    $("#flip{{forloop.counter}}").click(function(){
+        $("#panel{{forloop.counter}}").slideToggle("slow");
+    });
+});
+
+
+
+</script>
+	        <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+
+	    </div>
+	    </div>
+	    </div>
+    {% endfor %}
+

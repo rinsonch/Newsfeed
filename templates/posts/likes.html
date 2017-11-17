@@ -1,0 +1,4 @@
+
+    <button type="button" id="like" onclick="Like({{request.user.id}},{{a.id}},{{forloop.counter}})" class="btn " style="background-color:aqua;"><i class="fa fa-thumbs-up">
+        {{a.like.all.count}}</i></button>
+    <button type="button" value="dislike{{a.dislike.all.count}}" id="dislike" onclick="Dislike({{request.user.id}},{{a.id}},{{forloop.counter}})" class="btn" style="background-color:yellow;"><i class="fa fa-thumbs-down">{{a.dislike.all.count}}</i></button>

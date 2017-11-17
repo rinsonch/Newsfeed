@@ -1,0 +1,8 @@
+
+            {% if user in request.user.profile.follow.all %}
+                <div id="unfollow_div">
+                    <button class="btn btn-success" type="button" id="btn_unfollow" onclick="unfollow({{user.id}},{{request.user.id}})">unfollow</button> </form></div>
+            {% else %}
+                <div id="follow_div">
+                    <button class="btn btn-success" type="button" id="btn_follow" onclick="follow({{user.id}},{{request.user.id}})">follow</button></div>
+            {% endif %}

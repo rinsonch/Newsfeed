@@ -1,0 +1,162 @@
+<style>
+ h4 span{
+	position:relative;
+	left:50px;
+	font-style: oblique;
+	}
+	.jumbotron{
+	background-color: !important;
+	}
+</style>
+<body>
+{% extends 'base.html' %}
+{% block content %}
+{% for account in user.socialaccount_set.all %}
+<p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
+{% endfor %}
+
+{% if news.profile.profpic %}
+    <img class="img" src="{{news.profile.profpic.url }}" width="300" height="200" alt="hai">
+    {%endif%}
+<h2 style="color:green;">{{news.profile.user.first_name}}</h2>
+<div id="post_div"> {% include 'posts/createposts.html' %}</div>
+
+
+<div class="container col-sm-12 col-xs-12">
+    <h2>{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}</h2>
+
+    <div id="newposts">
+    {% if news.profile.newsfeed_set.exists %}
+    {% for a in news.profile.newsfeed_set.all %}
+    <div class="container ">
+	    <div class=" jumbotron">
+	    <h4 >{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}<span>posted {{a.pub_date|timesince}} ago</span></h4>
+            {% if a.feedpic %}
+	    <div><img classssrc="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+            {% endif %}
+            <div class="an ">{{ a.title|title}}</div>
+            <div class="h5 ">{{ a.content }} </div>
+            <div id="likediv{{a.id}}">{% include 'posts/likes.html' %}</div>
+            {% include 'posts/comment.html' %}
+            <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
+	        <div id="panel{{forloop.counter}}" style="display:none">
+ <div id="comment_box{{forloop.counter}}">
+                {% if a.newsvalue_set.exists %}
+
+                {% for b in a.newsvalue_set.all %}
+
+                <div id="box">{{b.commented|title}} <span style="position:relative;left:40px;">{{b.comm_date|timesince}} ago<div id="comm">{{b.comment}}</div></div>
+
+                    {% endfor %}
+
+                {% else %}
+                <p>no comments</p>
+                {% endif %}
+</div>
+
+
+	         <script>
+$(document).ready(function(){
+    $("#flip{{forloop.counter}}").click(function(){
+        $("#panel{{forloop.counter}}").slideToggle("slow");
+    });
+});
+
+
+
+</script>
+	        <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+
+	    </div>
+	    </div>
+	    </div>
+    {% endfor %}
+
+{% else %}
+    <h2>No news feed</h2>
+{% endif %}
+                    </div>
+
+</div>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script>
+$(document).ready( function() {
+
+$('#btn' ).click(function() {
+var title = $('#title').val();
+var content = $('#content').val();
+console.log(title,content);
+if(title==''||content==''){alert("please input");}
+else{
+$.ajax({
+    type: "GET",
+    url: "/createposts/",
+    dataType: "html",
+    data: {'title': title ,'content':content,},
+    success: function(data) {
+                         $('#newposts').html(data);
+                         $("#post_form")[0].reset();
+},
+});
+};
+});
+});
+function Myfun(id,count) {
+c='#comment'+count;
+var comment = $(c).val();
+a="/"+id+"/comment/"
+d='#comment_box'+count;
+e='#form'+count;
+
+console.log(a,comment,c);
+if(comment==''){alert("please input");}
+else{
+$.ajax({
+    type: "GET",
+    url: a,
+    dataType: "html",
+    data: {'comment':comment},
+    success: function(data) {
+                         $(d).html(data);
+                         $(e)[0].reset();
+},
+});
+}
+
+}
+function Like(log_user,feedid,count){
+e='#likediv'+feedid;
+console.log(log_user,feedid);
+$.ajax({
+    type: "GET",
+    url: "/like/",
+    data: {'id':log_user,'feedid':feedid},
+    success: function(data) {
+                        $(e).html(data);
+
+},
+});
+
+}
+function Dislike(log_user,feedid,count){
+e='#likediv'+feedid;
+console.log(log_user,feedid);
+$.ajax({
+    type: "GET",
+    url: "/dislike/",
+    data: {'id':log_user,'feedid':feedid},
+    success: function(data) {
+                        $(e).html(data);
+
+},
+});
+
+}
+
+
+
+
+</script>
+{% endblock %}
+</body>

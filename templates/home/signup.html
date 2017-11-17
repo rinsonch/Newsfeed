@@ -1,0 +1,32 @@
+<style>
+  .log{
+  border-radius:25px;
+  width:400px;
+  border:solid 1px plum;
+  text-align:center;
+  background-color:plum;
+  }
+</style>
+{% extends 'base.html'%}
+{% block content %}
+
+<div></div>
+<div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-sm-4 col-md-4 col-xs-12 log" >
+      <h2>Sign up</h2>
+  <form method="post" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+
+        {% for error in field.errors %}
+          <p style="color: red;">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
+    </div>
+{% endblock %}

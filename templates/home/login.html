@@ -1,0 +1,41 @@
+<style>
+  .log {
+     position:relative;
+        top:150px;
+        padding:25px;
+        border:solid 1px sandybrown;
+        background-color:sandybrown;
+        border-radius:10px;
+}
+</style>
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% block content %}
+<div class="col-md-4 col-sm-4 col-xs-12"></div>
+    <div class="col-sm-4 col-md-4 col-xs-12 log">
+
+       <h2>Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey;">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red;">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit" class="btn btn-alert-success" >Login</button>
+  </form>
+  {% load socialaccount %}
+              <form action="{% provider_login_url 'facebook' method='oauth2' %}">
+    <input type="submit" value="LOGIN WITH FACEBOOK" class="btn btn-alert-danger"  />
+</form>
+   </div>
+    </div>
+    </div>
+{% endblock %}
