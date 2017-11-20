@@ -14,7 +14,7 @@
             <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
 	        <div id="panel{{forloop.counter}}" style="display:none">
                 {% if a.newsvalue_set.exists %}
-                <div id="comment_box">
+                <div id="comment_box{{forloop.counter}}">
                 {% for b in a.newsvalue_set.all %}
                 <div id="box">{{b.commented|title}} {{b.comm_date|timesince}} ago<div id="comm">{{b.comment}}</div></div>
                 {% endfor %}
