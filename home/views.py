@@ -13,8 +13,6 @@ from django.shortcuts import render
 
 def signup(request):
     if request.method == 'POST':
-        # import pdb
-        # pdb.set_trace()
         form = SignUpForm(request.POST, request.FILES)
         if form.is_valid():
             user=form.save()

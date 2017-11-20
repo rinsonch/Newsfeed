@@ -86,7 +86,6 @@ def unfollow(request):
 
 def follow(request):
     b=request.GET['id']
-    print b
     p = Profile.objects.get(user_id=request.user.id)
 
     p.follow.add(b)
@@ -116,10 +115,7 @@ def dislike(request):
 def newsfeed(request):
     a= Profile.objects.get(user_id=request.user.id)
     c=a.follow.all()
-
-    print c
     list1 = [i.profile.id for i in c]
-    print list1
     news=NewsFeed.objects.filter(userid_id__in=list1).order_by('-pub_date')
 
     return render(request,'posts/newsfeed.html',{'news':news,})
@@ -132,7 +128,6 @@ def change_prof(request):
         form =Profilepic(request.POST, request.FILES)
         if form.is_valid():
             editprofile = form.save(commit=False)
-            print request.user.id
             editprofile.user.id=request.user.id
             editprofile.user.dob=request.user.profile.dob
             editprofile.save()
