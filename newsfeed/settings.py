@@ -203,7 +203,7 @@ SOCIAL_AUTH_URL_NAMESPACE = 'social'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DISABLE_COLLECTSTATIC=1
+ENABLE_COLLECTSTATIC=0
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
