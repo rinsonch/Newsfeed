@@ -1,13 +1,16 @@
 
 
-    <div class="col-sm-4"></div>
+<div class="col-md-1"></div>
     <div class="col-md-4">
-<form  method="get" id="post_form" name="post_form" enctype="multipart/form-data">
-    {% csrf_token %}
-        <input type="text" id="title" name="title" placeholder="Title.." required style="width:400px;"></br>
-        <textarea  name="content" id="content"  placeholder="content...." style="width:400px;"></textarea></br>
-    <!--<input type="file" name="feedpic" id="feedpic">-->
-    <input type="button" id="btn" value="Post" >
+        <div id="mymessage"></div>
+<form  method="post"  id="post_form" name="post_form" enctype="multipart/form-data" >
+
+    <input type='hidden' name='csrfmiddlewaretoken' id="mycsrf" value='{{ csrf_token }}' />
+
+    <input type="text" id="title" name="title" placeholder="Title.."   required style="border:solid black 1px;border-radius:10px;padding:5px;margin:5px;width:500px;"></br>
+    <textarea  name="content" id="content"  placeholder="content...."  style="margin:5px;padding:5px;width:500px;"></textarea></br>
+    <input type="file" style="margin:5px;" name="feedpic" id="feedpic">
+    <input type="button" style="width:60px;margin:5px;" class="btn btn-info" id="btn" value="Post" >
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 

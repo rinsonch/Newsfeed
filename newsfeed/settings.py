@@ -83,17 +83,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'newsfeed.wsgi.application'
 
-# AUTHENTICATION_BACKENDS = (
-#     'social_core.backends.facebook.FacebookOAuth2',
-#     'django.contrib.auth.backends.ModelBackend',
-#     'allauth.account.auth_backends.AuthenticationBackend',
-#     'django_facebook.auth_backends.FacebookBackend',
-#
-# )
-# SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-#   'locale': 'ru_RU',
-#   'fields': 'id, name, email, user_birthday'
-# }
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'django_facebook.auth_backends.FacebookBackend',
+
+)
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, user_birthday'
+}
 
 AUTHENTICATION_BACKENDS = (
 
@@ -109,7 +109,7 @@ AUTHENTICATION_BACKENDS = (
 
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
-        'METHOD': 'js_sdk',
+        'METHOD': 'oauth2',
         'SCOPE': ['user_birthday','email', 'public_profile', 'user_friends' ],
         'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
         'INIT_PARAMS': {'cookie': True},
@@ -131,7 +131,7 @@ SOCIALACCOUNT_PROVIDERS = {
 ],
         'EXCHANGE_TOKEN': True,
         'LOCALE_FUNC': lambda request: 'en_US',
-        'VERIFIED_EMAIL': False,
+        'VERIFIED_EMAIL': True,
         'VERSION': 'v2.4',
 },
 }
@@ -140,13 +140,23 @@ SOCIALACCOUNT_PROVIDERS = {
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'HOST': 'ec2-54-221-207-143.compute-1.amazonaws.com',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3sinbhg6o02s3',
+        'USER':'gkkqxffopkvytv',
+        'PORT':'5432',
+        'PASSWORD':'f5c1f5ff7c4357289f7aba72dc8b59b30ab4a0098f73b5f1e2dc210568fe8543',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -180,8 +190,8 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_REDIRECT_URL = '/posts/'
-LOGIN_URL='/posts/'
+LOGIN_REDIRECT_URL = '/newsfeed/'
+LOGIN_URL='/newsfeed/'
 LOGOUT_REDIRECT_URL = '/'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '144062532896296'

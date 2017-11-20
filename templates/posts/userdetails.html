@@ -1,17 +1,7 @@
 
 {% extends 'base.html' %}
+{% block title %}User Details{% endblock %}
 {% block content %}
-<!--<div class="container details">-->
-    <!--<p>{{ user.first_name }} {{ user.last_name }}</p>-->
-<!--{% if user.profile.newsfeed_set.exists %}-->
-    <!--{%for a in user.profile.newsfeed_set.all %}-->
-        <!--<p>{{ a.title }}</p>-->
-        <!--<p>{{a.content}}</p>-->
-    <!--{% endfor %}-->
-<!--{% else %}-->
-<!--<p><h1 style="color:red;">No Newwsfeed Exists</h1></p>-->
-<!--{% endif %}-->
-<!--</div>-->
 
 
 <h4><span>{{ user.first_name|title }} {{ user.last_name|title }}</span></h4>
@@ -23,7 +13,7 @@
 
 <div class="col-md-4"></div>
 {% for account in user.socialaccount_set.all %}
-<p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
+<p><img width="200" height="200" src="{{ account.get_avatar_url }}" /></p>
 {% endfor %}
 <div class="col-md-4">
 {% if user.profile.profpic %}
@@ -37,10 +27,13 @@
 
     {% if user.profile.newsfeed_set.exists %}
     {% for a in user.profile.newsfeed_set.all %}
-    <div class="container">
-	    <div class=" jumbotron" >
-	    <h4 >{{user.first_name|title}}{{user.last_name|title}}<span>posted {{a.pub_date|timesince}}ago</span></h4>
-	    <!--<div><img src="C:/Users/rinson/Downloads/bootstrap-3.3.7-dist/bootstrap-3.3.7-dist/hello.jpg" width="200px" height="auto"></div>-->
+
+	    <div class="container jumbotron" >
+
+	    <h4 >{{user.first_name|title}} {{user.last_name|title}}<span>posted {{a.pub_date|timesince}}ago</span></h4>
+	   {% if a.feedpic %}
+	    <div><img class="img" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+            {% endif %}
             <div class="an ">{{ a.title }}</div>
             <div class="h5 ">{{ a.content }} </div>
             <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
@@ -59,7 +52,7 @@ $(document).ready(function(){
     });
 });
 </script>
-	        <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+
 
 	    </div>
 	    </div>

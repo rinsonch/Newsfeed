@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{%block title %}My Followers {%endblock %}
 {% block content %}
 <div class="col-sm-12 col-md-12"></div>
 <div class="col-sm-3 col-md-3"></div>
 <div class="col-md-6 col-sm-6">
 {% for i in lists.follow.all %}
     {% if i.id != request.user.id%}
-<a href ="{% url 'posts:detail' i.id %} ">{{ i}} {{i.id.first_name}}
+<li style="list-style:none;"><div style="border:solid 1px cornsilk;background-color:cornsilk; border-radius:10px;">
+    <a href ="{% url 'posts:detail' i.id %} "> {{i.first_name|title}} <i>{{i.email}}</i>
     {% if i.profile.profpic %}
-    <img src="{{ i.profile.profpic.url }}" width="60px" height="60px"></a></br>
+    <img src="{{ i.profile.profpic.url }}" width="60px" height="60px"></a></div></li></br>
     {%endif%}
     {%endif %}
 {%endfor %}

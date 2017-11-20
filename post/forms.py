@@ -6,7 +6,7 @@ from .models import NewsValue
 class UserPosts(forms.ModelForm):
     class Meta:
         model=NewsFeed
-        fields=['title','content']
+        fields=['title','content','feedpic']
 
 class Comment(forms.ModelForm):
     class Meta:

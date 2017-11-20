@@ -1,7 +1,7 @@
 <style>
  h4 span{
 	position:relative;
-	left:50px;
+	left:350px;
 	font-style: oblique;
 	}
 	.jumbotron{
@@ -10,32 +10,34 @@
 </style>
 <body>
 {% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 {% block content %}
 {% for account in user.socialaccount_set.all %}
-<p><img width="50" height="50" src="{{ account.get_avatar_url }}" /></p>
+<p><img class="img" width="200" height="200" src="{{ account.get_avatar_url }}" /></p>
 {% endfor %}
 
 {% if news.profile.profpic %}
     <img class="img" src="{{news.profile.profpic.url }}" width="300" height="200" alt="hai">
     {%endif%}
-<h2 style="color:green;">{{news.profile.user.first_name}}</h2>
-<div id="post_div"> {% include 'posts/createposts.html' %}</div>
+
+<h2><b>{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}</b></h2>
+<h2>Born on <i>{{news.profile.dob}}</i></h2>
 
 
 <div class="container col-sm-12 col-xs-12">
-    <h2>{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}</h2>
 
+<div>&nbsp</div>
     <div id="newposts">
     {% if news.profile.newsfeed_set.exists %}
     {% for a in news.profile.newsfeed_set.all %}
     <div class="container ">
 	    <div class=" jumbotron">
-	    <h4 >{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}<span>posted {{a.pub_date|timesince}} ago</span></h4>
+            <h4><b>{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}</b><span style="font-size:15px;">{{a.pub_date|timesince}} ago</span></h4>
             {% if a.feedpic %}
-	    <div><img classssrc="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+	    <div><img class="img" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
             {% endif %}
             <div class="an ">{{ a.title|title}}</div>
-            <div class="h5 ">{{ a.content }} </div>
+            <div class="h5 "><i>{{ a.content }} </i></div>
             <div id="likediv{{a.id}}">{% include 'posts/likes.html' %}</div>
             {% include 'posts/comment.html' %}
             <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
@@ -81,27 +83,6 @@ $(document).ready(function(){
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
-$(document).ready( function() {
-
-$('#btn' ).click(function() {
-var title = $('#title').val();
-var content = $('#content').val();
-console.log(title,content);
-if(title==''||content==''){alert("please input");}
-else{
-$.ajax({
-    type: "GET",
-    url: "/createposts/",
-    dataType: "html",
-    data: {'title': title ,'content':content,},
-    success: function(data) {
-                         $('#newposts').html(data);
-                         $("#post_form")[0].reset();
-},
-});
-};
-});
-});
 function Myfun(id,count) {
 c='#comment'+count;
 var comment = $(c).val();

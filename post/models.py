@@ -7,10 +7,10 @@ from home.models import Profile,User
 
 class NewsFeed(models.Model):
     userid=models.ForeignKey(Profile,on_delete=models.CASCADE)
-    title=models.CharField(max_length=200)
-    content=models.CharField(max_length=300)
+    title=models.CharField(max_length=300)
+    content=models.CharField(max_length=3000)
     pub_date=models.DateTimeField(auto_now_add=True)
-    # feedpic=models.ImageField(upload_to='media/feedimages/',blank=True,null=True)
+    feedpic=models.ImageField(upload_to='media/feedimages/',blank=True,null=True)
     like = models.ManyToManyField(User,blank=True,null=True,related_name='like')
     dislike = models.ManyToManyField(User,blank=True,null=True,related_name='dislike')
 

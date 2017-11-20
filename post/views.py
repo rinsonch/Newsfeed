@@ -4,23 +4,11 @@ from __future__ import unicode_literals
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from home.models import Profile
-from .forms import UserPosts,Comment,Profilepic
+from .forms import Comment,Profilepic
 from django.shortcuts import get_object_or_404, redirect,get_list_or_404
 from django.views import generic
 from .models import NewsFeed,NewsValue
 from django.shortcuts import render
-from allauth.account.signals import user_logged_in
-from django.dispatch import receiver
-from django.http import request, HttpResponse
-
-
-# class FullPosts(generic.ListView):
-#     template_name = 'posts/userhome.html'
-#     model = User
-#     context_object_name = 'news'
-#
-#     def get_queryset(self, *args):
-#         return User.object.get(pk=self.request.user.id)
 
 @login_required
 def posts(request):
@@ -34,43 +22,33 @@ class Searchview(generic.ListView):
     context_object_name = 'user_list'
 
     def get_queryset(self, *args):
-        return User.objects.filter(first_name__icontains=self.request.GET['key']).exclude(username__icontains=self.request.user.username)
+        set=User.objects.filter(email__icontains=self.request.GET['key'])|User.objects.filter(first_name__icontains=self.request.GET['key'])
+        qset=set.exclude(username__icontains=self.request.user.username)
+        return qset
+        # return User.objects.filter(Q(email__icontains=self.request.GET['key'])|Q(firstname_icontains=self.request.GET['key']))\
+        #     .exclude(username__icontains=self.request.user.username)
 
 class DetailViews(generic.DetailView):
     model=User
     template_name='posts/userdetails.html'
 
-# @receiver(user_logged_in)
-class CreatePosts(generic.FormView,generic.ListView):
-    form_class = UserPosts
-    template_name = 'posts/createdposts.html'
-    # success_url = '/posts'
-    context_object_name = 'news'
+def createposts(request):
 
-    def get_queryset(self):
-        # import pdb
-        # pdb.set_trace()
-        # form =self.request.GET['content']
-        # print form
-        q=Profile.objects.get(user_id=self.request.user.id)
-        q.newsfeed_set.create(title=self.request.GET['title'],content=self.request.GET['content'])
-        # return super(CreatePosts, self).form_valid(form)
-        # a=Profile.objects.get(user=self.request.user.id)
-        return User.objects.get(pk=self.request.user.id)
+    if(request.method=='POST'):
+        q = Profile.objects.get(user_id=request.user.id)
+        if request.FILES:
+            q.newsfeed_set.create(title=request.POST['title'],
+            content=request.POST['content'],feedpic=request.FILES['file'])
+        else:
+            q.newsfeed_set.create(title=request.POST['title'],
+                                  content=request.POST['content'])
+    a = Profile.objects.get(user_id=request.user.id)
+    c = a.follow.all()
+    list1 = [i.profile.id for i in c]
+    news = NewsFeed.objects.filter(userid_id__in=list1).order_by('-pub_date')
+    return render(request,'posts/createdposts.html',{'news':news,})
 
-    def form_invalid(self, form):
-        return redirect("/posts")  # TODO : REMOVE
 
-# def comment(request,pk):
-#     if request.method=='POST':
-#         form=Comment(request.POST)
-#         if form.is_valid():
-#             user=form.save()
-#             k=Profile.objects.get(user_id)
-#         return redirect('/posts/')
-#
-#     else:
-#         form = Comment()
 
 class CommentPost(generic.FormView,generic.ListView):
     form_class = Comment
@@ -86,8 +64,7 @@ class CommentPost(generic.FormView,generic.ListView):
         fed=NewsValue(feedname=k,commented=u,comment=comment)
         fed.save()
         return NewsValue.objects.filter(feedname_id=a)
-        # Profile.objects.get(user_id=self.request.user.id).NewsFeed.objects.get(id=a).newsvalue_set.create(comment=comment)
-        # return super(Comment, self).form_valid(form)
+
 
     def form_invalid(self, form):
         return redirect("/posts")
@@ -115,6 +92,7 @@ def follow(request):
     p.follow.add(b)
     user = User.objects.get(pk=b)
     return render(request, 'posts/followcreated.html', {'user': user, })
+
 def like(request):
     b=request.user
     c=request.GET['feedid']
@@ -124,9 +102,8 @@ def like(request):
     else:
         d.like.add(b)
     return render(request,'posts/likes.html',{'a':d,})
+
 def dislike(request):
-    # import pdb
-    # pdb.set_trace()
     b = request.user
     c = request.GET['feedid']
     d = NewsFeed.objects.get(id=c)
@@ -147,9 +124,6 @@ def newsfeed(request):
 
     return render(request,'posts/newsfeed.html',{'news':news,})
 
-def changepic(request):
-    a=Profile.objects.get(user_id=request.user.id)
-    return render(request,'posts/changepic.html',{'a':a,})
 
 def change_prof(request):
     import pdb
@@ -166,25 +140,7 @@ def change_prof(request):
 
     return redirect('post/changepic.html')
 
-class CreateView(generic.DetailView):
-    template_name = 'posts/createdposts.html'
-    model = NewsFeed
-    context_object_name = 'news'
-# class NewsSearchView(ListView):
-#     model = News
-#     template_name = 'results.html'
-#     context_object_name = 'results'
-#
-#     def get_queryset(self, **kwargs):
-#         if self.request.is_ajax():
-#             q = self.request.GET.get('q')
-#             if q is not None:
-#                 return News.objects.filter(
-#                     Q(title__icontains=q)).order_by('-pub_date')
-#
-#
-#
-#
+
 
 
 

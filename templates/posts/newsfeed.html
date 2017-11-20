@@ -1,36 +1,40 @@
+
 {% extends 'base.html' %}
-<body>
+{% block title %}NewsFeed{% endblock %}
 {% block content %}
 <div id="post_div"> {% include 'posts/createposts.html' %}</div>
 <div class="container col-sm-12 col-xs-12">
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div id="newposts">
-{% for a in news %}
-    <div class="container ">
-<div class= "jumbotron">
-<h4 >{{a.userid.user.first_name|title}} {{a.userid.user.last_name|title}}<span>posted {{a.pub_date|timesince}} ago</span></h4>
-            <div class="an ">{{ a.title|title }}</div>
-            <div class="h5 ">{{ a.content }} </div>
-    <div id="likediv{{a.id}}">{% include 'posts/likes.html' %}</div>
-{% include 'posts/comment.html' %}
-            <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
-	        <div id="panel{{forloop.counter}}" style="display:none">
- <div id="comment_box{{forloop.counter}}">
-                {% if a.newsvalue_set.exists %}
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div>&nbsp;</div>
+    <div id="newposts">
+        {% for a in news %}
+        <div class="container ">
+            <div class= "jumbotron">
+                <h4 ><b>{{a.userid.user.first_name|title}} {{a.userid.user.last_name|title}}</b><span style="font-size:15"> {{a.pub_date|timesince}} ago</span></h4>
+                {% if a.feedpic %}
+	    <div><img class="img" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+            {% endif %}
+                <div class="an ">{{ a.title|title }}</div>
+                <div class="h5 ">{{ a.content }} </div>
+                <div id="likediv{{a.id}}">{% include 'posts/likes.html' %}</div>
+                {% include 'posts/comment.html' %}
+                <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
+                <div id="panel{{forloop.counter}}" style="display:none">
+                    <div id="comment_box{{forloop.counter}}">
+                        {% if a.newsvalue_set.exists %}
 
-                {% for b in a.newsvalue_set.all %}
+                        {% for b in a.newsvalue_set.all %}
 
-                <div id="box">{{b.commented|title}} {{b.comm_date}} ago<div id="comm">{{b.comment}}</div></div>
+                        <div id="box"><span style="font-color:">{{b.commented|title}}</span> {{b.comm_date}} ago<div id="comm">{{b.comment}}</div></div>
 
-                    {% endfor %}
+                        {% endfor %}
 
-                {% else %}
-                <p>no comments</p>
-                {% endif %}
-</div>
-                <script>
+                        {% else %}
+                        <p>no comments</p>
+                        {% endif %}
+                    </div>
+                    <script>
 $(document).ready(function(){
     $("#flip{{forloop.counter}}").click(function(){
         $("#panel{{forloop.counter}}").slideToggle("slow");
@@ -40,100 +44,115 @@ $(document).ready(function(){
 
 
 </script>
-	        <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+                    <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
 
-	    </div>
+                </div>
+            </div>
         </div>
-	    </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
 $(document).ready( function() {
 
 $('#btn' ).click(function() {
-var title = $('#title').val();
-var content = $('#content').val();
-console.log(title,content);
-if(title==''||content==''){alert("please input");}
-else{
-$.ajax({
-    type: "GET",
-    url: "/createposts/",
-    dataType: "html",
-    data: {'title': title ,'content':content,},
-    success: function(data) {
-                         $('#newposts').html(data);
-                         $("#post_form")[0].reset();
-},
+
+    var title = $('#title').val();
+    var content = $('#content').val();
+    var img = $( '#feedpic' )[0].files[0];
+    var csrf = $( '#mycsrf' ).val();
+
+    var formdata = new FormData();
+    formdata.append( 'file', img );
+    formdata.append('csrfmiddlewaretoken',csrf)
+    formdata.append( 'title', title );
+    formdata.append( 'content', content );
+    console.log(formdata);
+
+    if(title==''||content==''){
+        alert("please input");
+        }
+
+    else{
+        $.ajax({
+            type:"POST",
+            url: "/createposts/",
+            processData: false,
+            dataType: 'html',
+            contentType: false,
+            data: formdata,
+            success: function(data,status) {
+                    console.log("Success");
+                    $('#newposts').html(data);
+                    $("#post_form")[0].reset();
+                },
+            });
+        };
+    });
 });
-};
-});
-});
+
 function Myfun(id,count) {
-c='#comment'+count;
-var comment = $(c).val();
-a="/"+id+"/comment/"
-d='#comment_box'+count;
-e='#form'+count;
+    c='#comment'+count;
+    var comment = $(c).val();
+    a="/"+id+"/comment/"
+    d='#comment_box'+count;
+    e='#form'+count;
+    console.log(a,comment,c);
 
-console.log(a,comment,c);
-if(comment==''){alert("please input");}
-else{
-$.ajax({
-    type: "GET",
-    url: a,
-    dataType: "html",
-    data: {'comment':comment},
-    success: function(data) {
-                         $(d).html(data);
-                         $(e)[0].reset();
-},
-});
-}
-
-}
+    if(comment==''){
+        alert("please input");
+    } else {
+        $.ajax({
+            type: "GET",
+            url: a,
+            dataType: "html",
+            data: {'comment':comment},
+            success: function(data) {
+                 $(d).html(data);
+                 $(e)[0].reset();
+                },
+            });
+        }
+    }
 
 function Like(log_user,feedid,count){
-e='#likediv'+feedid;
-h='#likediv'+feedid;
-console.log(log_user,feedid,e);
-$.ajax({
-    type: "GET",
-    url: "/like/",
-    data: {'id':log_user,'feedid':feedid},
-    success: function(data) {
+    e='#likediv'+feedid;
+    h='#likediv'+feedid;
+    console.log(log_user,feedid,e);
+    $.ajax({
+        type: "GET",
+        url: "/like/",
+        data: {'id':log_user,'feedid':feedid},
+        success: function(data) {
+            $(e).html(data);
+            $(this).attr('id','e');
 
-                        $(e).html(data);
-                        $(this).attr('id','e');
 
+            },
+        });
 
-},
-});
-
-}
+    }
 function Dislike(log_user,feedid,count){
-e='#likediv'+feedid;
-console.log(log_user,feedid,e);
-$.ajax({
-    type: "GET",
-    url: "/dislike/",
-    data: {'id':log_user,'feedid':feedid},
-    success: function(data) {
+    e='#likediv'+feedid;
+    console.log(log_user,feedid,e);
+    $.ajax({
+        type: "GET",
+        url: "/dislike/",
+        data: {'id':log_user,'feedid':feedid},
+        success: function(data) {
 
-                        $(e).html(data);
-                        $(this).attr('id','e');
+                            $(e).html(data);
+                            $(this).attr('id','e');
 
 
-},
-});
+                            },
+        });
 
-}
+    }
 
 </script>
 {%endblock%}
-</body>

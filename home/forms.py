@@ -9,6 +9,7 @@ class SignUpForm(UserCreationForm):
     dob=forms.DateField(required=False)
     profpic=forms.ImageField(required=False)
 
+
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username','email', 'password1', 'password2', 'dob','profpic' )

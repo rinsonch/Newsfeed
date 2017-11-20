@@ -21,7 +21,8 @@ def signup(request):
             user.email= form.cleaned_data.get('username')
             user.refresh_from_db()
             user.profile.dob = form.cleaned_data.get('dob')
-            user.profile.profpic=request.FILES['profpic']
+            if(request.FILES):
+                user.profile.profpic=request.FILES['profpic']
             b=user.id
             user.profile.save()
             user.profile.follow.add(b)

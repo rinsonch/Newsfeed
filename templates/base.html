@@ -15,12 +15,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/eldarion-ajax@0.16.0/js/eldarion-ajax.min.js"></script>
 <style>
+ h4 span{
+	position:relative;
+	left:350px;
+	color:#0C090A;
+	font-size:15px;
+	font-style: oblique;
+	}
 	.jumbotron{
-	background-color:Moccasin   !important;
+	background-color: !important;
+	}
+	.jumbotron{
+	background-color:#e6e6e6  !important;
 	}
 	.an{
 	font-family:serif;
-	font-size:30px;
+	font-size:23px;
 	font-weight: bold;
 	color:green;
 	}
@@ -60,6 +70,7 @@
 	height:150px;
 	overflow:hidden;
 	float:right;
+	right:50px;
 	}
 	nav{
 	height:70px;}
@@ -76,7 +87,7 @@
 	.dropdown:hover .dropdown-menu{
 	display:block;
 	position:absolute;
-	left:0px;
+	right:0px;
 
 	}
 	li{
@@ -85,13 +96,14 @@
 	margin-bottom:5px;
 	}
 </style>
+
 </head>
 
-<body style="background-color:azure;">
+<body style="background-color:#b3ffff;">
+<div class="container-fluid" style="border-top:10px;">
 
-<div class="container-fluid" >
-	<nav class="navbar navbar-default navbar-fixed-top " style="background-color:aqua;">
-		<div class="container -fluid" style="margin-top:10px;">
+	<nav class="container-fluid navbar navbar-default navbar-fixed-top " style="background-color:#b3c6ff;border-top:10px;">
+
 		<button type="button" class="navbar-toggle"
 		data-toggle="collapse"
 		data-target=".navbar-collapse">
@@ -119,13 +131,12 @@
 
 
 
-		<li class="active"><a href="{% url 'posts:newsfeed' %}">Newsfeed</a></li>
-		<li ><a href="{%url 'posts:changepic'%}" >Change Pic</a></li>
+		<li ><a href="{% url 'posts:newsfeed' %}">Newsfeed</a></li>
+		<li ><a href="{% url 'posts:followlist' %}" >Followers</a></li>
 		<li class="dropdown">
-		<a href="{% url 'posts:posts' %}" class="dropdown-toggle" data-toggle="dropdown" >{{request.user.first_name}}<b class="caret"></b></a>
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown" >{{request.user.first_name}}<b class="caret"></b></a>
 		<ul class="dropdown-menu">
-		<li class="dropdown-header">Example</li>
-			<li><a href="{% url 'posts:followlist' %}">Following</a></li>
+		<li class="dropdown-header">More</li>
 		<li><a href="{% url 'home:logout' %}">Logout</a></li>
 
 		</ul>
@@ -140,14 +151,15 @@
         </ul>
         {%endif %}
              </div>
-		</div>
+
 	</nav>
-	</div>
+</div>
 <div>&nbsp;</div>
 <div>&nbsp;</div>
 <div>&nbsp;</div>
 <div>&nbsp;</div>
 <div class="col-sm-12 col-xs-12 col-md-12">
+
 {% block content %} {% endblock %}
     </div>
 </body>
