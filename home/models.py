@@ -32,13 +32,16 @@ def user_signed_up_(request, user, sociallogin=None, **kwargs):
     if sociallogin:
         b=user.id
         user.profile.follow.add(b)
-        if sociallogin.account.extra_data['birthday']:
-            a=sociallogin.account.extra_data['birthday']
-            b=time.strptime(a,"%m/%d/%Y")
-            c=time.strftime("%Y-%m-%d",b)
-            user.refresh_from_db()
-            user.profile.dob=c
-            user.profile.save()
+        try:
+            if sociallogin.account.extra_data['birthday']:
+                a=sociallogin.account.extra_data['birthday']
+                b=time.strptime(a,"%m/%d/%Y")
+                c=time.strftime("%Y-%m-%d",b)
+                user.refresh_from_db()
+                user.profile.dob=c
+                user.profile.save()
+        except:
+            pass
 
 
 
