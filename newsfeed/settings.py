@@ -25,7 +25,7 @@ SECRET_KEY = 's07@8*_vkyr4@j8$8#cu0y$lq7og9g=d-05z)u=ujg*a!w56gw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['sayonenewsfeed.herokuapp.com']
+ALLOWED_HOSTS = ['sayonenewsfeed.herokuapp.com','localhost']
 
 
 # Application definition
