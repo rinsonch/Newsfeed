@@ -21,7 +21,9 @@
     {%endif%}
 
 <h2><b>{{news.profile.user.first_name|title}} {{news.profile.user.last_name|title}}</b></h2>
+{% if news.profile.dob %}
 <h2>Born on <i>{{news.profile.dob}}</i></h2>
+{% endif %}
 
 
 <div class="container col-sm-12 col-xs-12">

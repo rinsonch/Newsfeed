@@ -5,7 +5,9 @@
 
 
 <h4><span>{{ user.first_name|title }} {{ user.last_name|title }}</span></h4>
+{% if user.profile.dob %}
 <h4><span>Born on: {{ user.profile.dob }} </span></h4>
+{% endif %}
 <div class="col-md-8"></div>
 <div id="follower" class="col-md-4">
             {% include 'posts/followcreated.html' %}

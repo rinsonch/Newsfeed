@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
-    last_name = forms.CharField(max_length=30, required=False, help_text='Optional.')
-    username=forms.EmailField(max_length=30)
+    last_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
+    username=forms.EmailField(required=True,max_length=30)
     dob=forms.DateField(required=False,widget=forms.DateInput(attrs={
         'class':'datepicker', 'data-min': '1960-01-01',
         'data-max': '2000-12-12'}))
