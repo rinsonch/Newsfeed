@@ -142,23 +142,23 @@ SOCIALACCOUNT_PROVIDERS = {
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'HOST': 'ec2-54-221-207-143.compute-1.amazonaws.com',
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'd3sinbhg6o02s3',
-#         'USER':'gkkqxffopkvytv',
-#         'PORT':'5432',
-#         'PASSWORD':'f5c1f5ff7c4357289f7aba72dc8b59b30ab4a0098f73b5f1e2dc210568fe8543',
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'HOST': 'ec2-54-221-207-143.compute-1.amazonaws.com',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd3sinbhg6o02s3',
+        'USER':'gkkqxffopkvytv',
+        'PORT':'5432',
+        'PASSWORD':'f5c1f5ff7c4357289f7aba72dc8b59b30ab4a0098f73b5f1e2dc210568fe8543',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
