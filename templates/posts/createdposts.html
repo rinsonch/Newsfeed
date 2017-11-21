@@ -4,7 +4,7 @@
 	    <div class=" jumbotron">
 	    <h4 >{{a.userid.user.first_name|title}} {{a.userid.user.last_name|title}}<span>Posted {{a.pub_date|timesince}}ago</span></h4>
 	    {% if a.feedpic %}
-	    <div><img class="img" style="postion;relative;float:right;" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+	    <div><img  style="postion;relative;float:right;" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
             {% endif %}
             <div class="an ">{{ a.title|title }}</div>
             <div class="h5 ">{{ a.content|title }} </div>

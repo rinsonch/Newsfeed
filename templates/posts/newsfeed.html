@@ -13,7 +13,7 @@
             <div class= "jumbotron">
                 <h4 ><b>{{a.userid.user.first_name|title}} {{a.userid.user.last_name|title}}</b><span style="font-size:15"> {{a.pub_date|timesince}} ago</span></h4>
                 {% if a.feedpic %}
-	    <div  ><img class="img" style="position:relative;float:right;" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
+	    <div  ><img  style="position:relative;float:right;" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
             {% endif %}
                 <div class="an ">{{ a.title|title }}</div>
                 <div class="h5 ">{{ a.content }} </div>
