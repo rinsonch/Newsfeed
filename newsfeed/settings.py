@@ -47,6 +47,8 @@ INSTALLED_APPS = [
 
 ]
 
+DATE_INPUT_FORMATS = ('%d-%m-%Y','%Y-%m-%d')
+
 SITE_ID = 2
 
 MIDDLEWARE = [
