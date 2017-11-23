@@ -15,7 +15,7 @@
 {% if user_list %}
     <ul>
 {% for b in user_list %}
-        <li style="list-style:none;"><div style="border:solid 1px cornsilk;background-color:cornsilk;border-radius:10px;"><a class="nam" href="{% url 'posts:detail' b.id %}">{{b.first_name|title}} <i>{{b.email}}</i><span style="postion:relative;right:20px;">{% if b.profile.profpic %}
+        <li style="list-style:none;"><div style="border:solid 1px cornsilk;background-color:cornsilk;border-radius:10px;margin:10px;"><a class="nam" href="{% url 'posts:detail' b.id %}">{{b.first_name|title}} <i>{{b.email}}</i><span style="postion:relative;right:20px;">{% if b.profile.profpic %}
     <img src="{{ b.profile.profpic.url }}" width="60px" height="60px"></span></a></div></br>
     {%endif%}</a></li>
 {% endfor %}

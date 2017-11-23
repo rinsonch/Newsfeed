@@ -2,6 +2,7 @@
 <head lang="en">
     <title>{% block title %}{% endblock %}</title>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -24,11 +25,9 @@
 	font-style: oblique;
 	}
 	.jumbotron{
-	background-color: !important;
+	background-color: #dfff80 !important;
 	}
-	.jumbotron{
-	background-color:#e6e6e6  !important;
-	}
+
 	.an{
 	font-family:serif;
 	font-size:23px;
@@ -57,7 +56,7 @@
 	position:relative;
 	left:50px;
 	font-style: oblique;
-	color:yellowgreen;
+	color:#990099;
 	}
 
 
@@ -71,7 +70,7 @@
 	height:150px;
 	overflow:hidden;
 	float:right;
-	right:50px;
+	right:300px;
 	}
 	nav{
 	height:70px;}
@@ -96,14 +95,16 @@
 	text-align:center;
 	margin-bottom:5px;
 	}
+	body{
+	background-image:url("/media/img3.jpg");
+	}
 </style>
 
 </head>
 
-<body style="background-color:#b3ffff;">
-<div class="container-fluid" style="border-top:10px;">
+<body>
 
-	<nav class="container-fluid navbar navbar-default navbar-fixed-top " style="background-color:#b3c6ff;border-top:10px;">
+	<nav class="container-fluid navbar navbar-default navbar-fixed-topcol-md-12" style="background-color:  #ff6633;border-top:10px;">
 
 		<button type="button" class="navbar-toggle"
 		data-toggle="collapse"
@@ -123,17 +124,23 @@
           $("#123").attr("href", "/posts/");
       </script>
 
-		<li style="list-style-type:none;"><form id="searchform" action="{% url 'posts:search' %}" method="get" accept-charset="utf-8">
+		<li style="list-style-type:none;">
+            <form id="searchform" action="{% url 'posts:search' %}" method="get" accept-charset="utf-8">
                 <input class="searchfield"     id="key" name="key" type="text" placeholder="Search" required>
 				 <button type="submit" class="btn btn-info" style="margin-right:400px">
                         <span class="glyphicon glyphicon-search"></span>
                  </button>
-            </form></li>
+            </form>
+        </li>
 
 
 
-		<li ><a href="{% url 'posts:newsfeed' %}">Newsfeed</a></li>
-		<li ><a href="{% url 'posts:followlist' %}" >Followers</a></li>
+		<li >
+            <a href="{% url 'posts:newsfeed' %}">Newsfeed</a>
+        </li>
+		<li >
+            <a href="{% url 'posts:followlist' %}" ><span style="color:blue;" class="glyphicon glyphicon-user"></span>Followers</a>
+        </li>
 		<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown" >{{request.user.first_name}}<b class="caret"></b></a>
 		<ul class="dropdown-menu">
@@ -146,8 +153,16 @@
 		</ul>
 
         {% else %}
-                <li><a href="{% url 'home:signup' %}"><span class="glyphicon glyphicon-user" style="color:blue;"></span> Sign Up</a></li>
-                <li><a href="{% url 'home:login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li>
+                    <a href="{% url 'home:signup' %}">
+                        <span class="glyphicon glyphicon-user" style="color:blue;"></span> Sign Up
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'home:login' %}">
+                        <span class="glyphicon glyphicon-log-in"></span> Login
+                    </a>
+                </li>
 
         </ul>
         {%endif %}

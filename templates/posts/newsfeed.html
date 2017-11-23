@@ -3,20 +3,21 @@
 {% block title %}NewsFeed{% endblock %}
 {% block content %}
 <div id="post_div"> {% include 'posts/createposts.html' %}</div>
-<div class="container col-sm-12 col-xs-12">
+<div class="container col-sm-12 col-xs-12 infinite-container">
     <div>&nbsp;</div>
     <div>&nbsp;</div>
     <div>&nbsp;</div>
+
     <div id="newposts">
         {% for a in news %}
-        <div class="container ">
-            <div class= "jumbotron">
+        <div class="container infinite-item ">
+            <div class= "jumbotron ">
                 <h4 ><b>{{a.userid.user.first_name|title}} {{a.userid.user.last_name|title}}</b><span style="font-size:15"> {{a.pub_date|timesince}} ago</span></h4>
                 {% if a.feedpic %}
 	    <div  ><img  style="position:relative;float:right;" src="{{a.feedpic.url}}" width="200px" height="200" alt="No content"></div>
             {% endif %}
                 <div class="an ">{{ a.title|title }}</div>
-                <div class="h5 ">{{ a.content }} </div>
+                <div class="h4 " style="font-family: Arial, Helvetica, sans-serif;">{{ a.content }} </div>
                 <div id="likediv{{a.id}}">{% include 'posts/likes.html' %}</div>
                 {% include 'posts/comment.html' %}
                 <div id="flip{{forloop.counter}}">Comments<span class="caret"></span></div>
@@ -44,18 +45,26 @@ $(document).ready(function(){
 
 
 </script>
-                    <!--<div id="box" >Rinson Chacko<div id="comm">This is my ddsdssssss</div></div>-->
+
 
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
-
+    <div style="margin:35px;">
+{% if page_obj.has_previous %}
+    <a style="position:absolute;align:center;bottom:0px;left:550px;" class="breadcrumb infinite-more-link" href="?page={{ page_obj.previous_page_number }}"><span class="glyphicon glyphicon-hand-left"></span> Previous</a>
+  {% endif %}
+{% if page_obj.has_next %}
+    <a style="position:absolute;align:center;bottom:0px;left:650px;" class="breadcrumb infinite-more-link" href="?page={{ page_obj.next_page_number }}">Next <span class="glyphicon glyphicon-hand-right"></span></a>
+  {% endif %}
+</div>
 </div>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+<script data-require="waypoints@2.0.4" data-semver="2.0.4" src="//cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.4/waypoints.min.js"></script>
 <script>
 $(document).ready( function() {
 
@@ -153,6 +162,8 @@ function Dislike(log_user,feedid,count){
         });
 
     }
+
+
 
 </script>
 {%endblock%}
