@@ -153,12 +153,12 @@ SOCIALACCOUNT_PROVIDERS = {
 
 DATABASES = {
     'default': {
-        'HOST': 'ec2-54-221-207-143.compute-1.amazonaws.com',
+        'HOST': 'ec2-174-129-195-73.compute-1.amazonaws.com',
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd3sinbhg6o02s3',
-        'USER':'gkkqxffopkvytv',
+        'NAME': 'd3d0316hbieemf',
+        'USER':'hahsxctarjusum',
         'PORT':'5432',
-        'PASSWORD':'f5c1f5ff7c4357289f7aba72dc8b59b30ab4a0098f73b5f1e2dc210568fe8543',
+        'PASSWORD':'6c479788bd380d4759ce8d0a42138421ad6982f08dd483403c94586c4dddae2e',
     }
 }
 
