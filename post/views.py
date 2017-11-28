@@ -12,11 +12,13 @@ from django.shortcuts import render
 
 @login_required
 def posts(request):
+    """ fetch all the cureent user's data"""
     news=get_object_or_404(User,pk=request.user.id)
     full=get_list_or_404(User)
     return render(request,'posts/userhome.html',{'news':news,'full':full})
 
 class Searchview(generic.ListView):
+    """ To search a user and display the name and email id of the matching"""
     model = User
     template_name = 'posts/search_list.html'
     context_object_name = 'user_list'
@@ -25,15 +27,15 @@ class Searchview(generic.ListView):
         set=User.objects.filter(email__icontains=self.request.GET['key'])|User.objects.filter(first_name__icontains=self.request.GET['key'])
         qset=set.exclude(username__icontains=self.request.user.username)
         return qset
-        # return User.objects.filter(Q(email__icontains=self.request.GET['key'])|Q(firstname_icontains=self.request.GET['key']))\
-        #     .exclude(username__icontains=self.request.user.username)
+        
 
 class DetailViews(generic.DetailView):
+    """To view the details of user in the search result"""
     model=User
     template_name='posts/userdetails.html'
 
 def createposts(request):
-
+    """To create a post and show it in the users newsfeed"""
     if(request.method=='POST'):
         q = Profile.objects.get(user_id=request.user.id)
         if request.FILES:
@@ -51,6 +53,7 @@ def createposts(request):
 
 
 class CommentPost(generic.FormView,generic.ListView):
+    """To comment a post"""
     form_class = Comment
     template_name = 'posts/commented_posts.html'
     context_object_name = 'a'
@@ -70,6 +73,7 @@ class CommentPost(generic.FormView,generic.ListView):
         return redirect("/posts")
 
 class Followlist(generic.ListView):
+    """Displays the follower list"""
     model=Profile
     template_name='posts/followlist.html'
     context_object_name = 'lists'
@@ -78,6 +82,7 @@ class Followlist(generic.ListView):
         return Profile.objects.get(user_id=self.request.user)
 
 def unfollow(request):
+    """To unfollow a person if following"""
     b=request.GET['id']
     p=Profile.objects.get(user_id=request.user.id)
     p.follow.remove(b)
@@ -85,14 +90,15 @@ def unfollow(request):
     return render(request,'posts/followcreated.html',{'user':user,})
 
 def follow(request):
+    """ Follows a person if unfollowing"""
     b=request.GET['id']
     p = Profile.objects.get(user_id=request.user.id)
-
     p.follow.add(b)
     user = User.objects.get(pk=b)
     return render(request, 'posts/followcreated.html', {'user': user, })
 
 def like(request):
+    """To like a post"""
     b=request.user
     c=request.GET['feedid']
     d=NewsFeed.objects.get(id=c)
@@ -103,6 +109,7 @@ def like(request):
     return render(request,'posts/likes.html',{'a':d,})
 
 def dislike(request):
+    """To dislike a post"""
     b = request.user
     c = request.GET['feedid']
     d = NewsFeed.objects.get(id=c)
@@ -113,6 +120,8 @@ def dislike(request):
     return render(request, 'posts/likes.html', {'a': d, })
 
 def newsfeed(request):
+    """Newsfeed of the current user
+    contains own feeds and feeds of followers"""
     a= Profile.objects.get(user_id=request.user.id)
     c=a.follow.all()
     list1 = [i.profile.id for i in c]
