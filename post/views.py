@@ -191,16 +191,3 @@ def dislike(request):
 #     news = NewsFeed.objects.filter(userid_id__in=list1).order_by('-pub_date')
 #     return render(request,'posts/createdposts.html',{'news':news,})
 
-# def unfollow(request):
-#     b=request.GET['id']
-#     p=Profile.objects.get(user_id=request.user.id)
-#     p.follow.remove(b)
-#     user = User.objects.get(pk=b)
-#     return render(request,'posts/followcreated.html',{'user':user,})
-
-# def follow(request):
-#     b=request.GET['id']
-#     p = Profile.objects.get(user_id=request.user.id)
-#     p.follow.add(b)
-#     user = User.objects.get(pk=b)
-#     return render(request, 'posts/followcreated.html', {'user': user, })
